@@ -33,6 +33,6 @@ public static class ArgumentResolver
 
     private static bool? resolveOption1(string opt)
     {
-        return null;
+        return bool.Parse(opt);
     }
 }

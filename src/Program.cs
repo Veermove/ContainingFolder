@@ -8,7 +8,7 @@ class Program
         Connector connector = new Connector();
         Painter painter = new Painter();
         var (path, depth, option) = ArgumentResolver.getArgs(args);
-        DirModel dir = connector.getByPath(path, depth);
+        DirModel dir = connector.getByPath(path, depth, option);
         painter.display(dir);
     }
 }

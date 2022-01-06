@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 public class NameCleaner
 {
-    public List<string> getNameFromPath(string[] dirty)
+    public List<string> getNameFromPath(string[] dirty, bool option)
     {
         List<string> ready = new List<string>(dirty.GetLength(0));
         foreach(string s in dirty)
         {
-            ready.Add(cleanName(s));
+            var name = cleanName(s);
+            if (!(name.StartsWith('.') && option))
+                {
+                    ready.Add(name);
+                }
         }
         return ready;
     }

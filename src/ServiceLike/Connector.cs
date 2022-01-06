@@ -9,11 +9,14 @@ public class Connector
         resolver = new Resolver();
     }
 
-    public DirModel getByPath(string path, int? depth)
+    public DirModel getByPath(string path, int? depth, bool? opt)
     {
-        if (depth.HasValue)
-        {
+        if (depth.HasValue) {
             return getWithDepth(path, depth.Value);
+        }
+        else if (depth.HasValue && opt.HasValue)
+        {
+            return getWithDepthAndOption(path, depth.Value, opt.Value);
         } else
         {
             return getDefault(path);
@@ -21,11 +24,16 @@ public class Connector
     }
     private DirModel getDefault(string path)
     {
-        return resolver.getByPath(path, defaultDepth);
+        return resolver.getByPath(path, defaultDepth, false);
     }
 
     private DirModel getWithDepth(string path, int depth)
     {
-        return resolver.getByPath(path, depth);
+        return resolver.getByPath(path, depth, false);
+    }
+
+    private DirModel getWithDepthAndOption(string path, int depth, bool option)
+    {
+        return resolver.getByPath(path, depth, option);
     }
 }
