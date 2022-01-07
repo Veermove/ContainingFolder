@@ -19,6 +19,10 @@ public class NameCleaner
     public string cleanName(string name)
     {
         ReadOnlySpan<char> nameSpan = name.AsSpan();
+        if (nameSpan[nameSpan.Length -1] == '/')
+        {
+            nameSpan = nameSpan.Slice(0, nameSpan.Length - 1);
+        }
         int index = nameSpan.LastIndexOf("/");
         return nameSpan
             .Slice(index + 1, (nameSpan.Length - 1) - index)

@@ -42,9 +42,12 @@ public class Painter
     {
         Random rng = new Random();
         int colorCode = rng.Next(105, 227);
+        if (dirModel.files is null)
+        {
+            return;
+        }
         foreach(string file in dirModel.files)
         {
-            // Console.WriteLine(currentIndentation + file);
             Console.Write(currentIndentation);
             displayFileName(file, colorCode);
             Console.Write("\n");

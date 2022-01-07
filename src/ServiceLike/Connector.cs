@@ -3,7 +3,7 @@ using System;
 public class Connector
 {
     private Resolver resolver;
-    public const int defaultDepth = 2;
+    public const int defaultDepth = 10;
     public Connector()
     {
         resolver = new Resolver();
@@ -11,7 +11,7 @@ public class Connector
 
     public DirModel getByPath(string path, int? depth, bool? opt)
     {
-        if (depth.HasValue) {
+        if (depth.HasValue && !opt.HasValue) {
             return getWithDepth(path, depth.Value);
         }
         else if (depth.HasValue && opt.HasValue)

@@ -17,10 +17,17 @@ public class Resolver
     public DirModel getByPath(string givenPath, int depth, bool option)
     {
         var subDirs = resolveFolders(givenPath, depth, option);
+        var filez = resolveFiles(givenPath, option);
+        if (depth < 0)
+        {
+            subDirs = null;
+            filez = null;
+        }
+
         currentDirectory = new DirModel()
         {
             subfolders = subDirs,
-            files = resolveFiles(givenPath, option),
+            files = filez,
             name = cleaner.cleanName(givenPath),
             path = givenPath,
         };
@@ -32,12 +39,22 @@ public class Resolver
         try
         {
             string[] fils = Directory.GetFiles(path);
-            return cleaner.getNameFromPath(fils, option);
+            var filez = cleaner.getNameFromPath(fils, option);
+            if (option)
+            {
+                return filterFiles(filez);
+            }
+            return filez;
         } catch (System.IO.DirectoryNotFoundException e)
         {
             Console.WriteLine(e.Message);
         }
         return null;
+    }
+
+    private List<string> filterFiles(List<string> files)
+    {
+        return files.FindAll(name => !name.StartsWith('.'));
     }
 
 
@@ -54,21 +71,24 @@ public class Resolver
             var dirsModel = new List<DirModel>(dirs.GetLength(0));
             foreach(string folder in dirs)
             {
-                if (folder.StartsWith('.') && option)
-                {
-
-                } else
-                {
-                    dirsModel.Add(getByPath(folder, depth - 1, option));
-                }
+                dirsModel.Add(getByPath(folder, depth - 1, option));
             }
             dirsModel.Sort(DirModel.CompareByName);
+            if (option)
+            {
+                return filterFolders(dirsModel);
+            }
             return dirsModel;
         } catch (System.IO.DirectoryNotFoundException e)
         {
             Console.WriteLine(e.Message);
         }
         return null;
+    }
+
+    private List<DirModel> filterFolders(List<DirModel> folds)
+    {
+        return folds.FindAll(folder => !folder.name.StartsWith('.'));
     }
 
 }
