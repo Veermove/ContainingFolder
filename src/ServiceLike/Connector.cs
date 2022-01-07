@@ -11,7 +11,11 @@ public class Connector
 
     public DirModel getByPath(string path, int? depth, bool? opt)
     {
-        if (depth.HasValue && !opt.HasValue) {
+        if (path is null)
+        {
+            return null;
+        } else if (depth.HasValue && !opt.HasValue)
+        {
             return getWithDepth(path, depth.Value);
         }
         else if (depth.HasValue && opt.HasValue)

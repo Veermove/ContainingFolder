@@ -3,7 +3,12 @@ public static class ArgumentResolver
 {
     public static (string, int?, bool?) getArgs(string[] args)
     {
-        if (args.GetLength(0) == 2)
+        if (args.GetLength(0) == 0)
+        {
+            Console.WriteLine("err: foldertree <arg str: path> <arg int: depth> <arg bool: hide starting with '.'> ");
+            return (null, null, null);
+        }
+        else if (args.GetLength(0) == 2)
         {
             return (args[0], resolveDepth(args[1]), null);
         } else if (args.GetLength(0) == 3)
